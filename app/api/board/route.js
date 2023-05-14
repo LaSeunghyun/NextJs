@@ -1,23 +1,27 @@
-'use client'
+export function GET() {
 
-export default function handler(req, res) {
+    console.log('--------------------------------------')
 
-    console.log('dddddddddddddddddddddddddddddd')
-    console.log(req)
     let now = new Date();
     let year = now.getFullYear();
     let month = now.getMonth() + 1;
     let day = now.getDate();
-    const dateTime = year + ' / ' + month + ' / ' + day
+    const dateTime = year + ' / ' + month + ' / ' + day;
 
-    const text = [
-        {
-            "idx": 0, "name": "제목", "content": "내용", "regdate": dateTime, "category": "잡담"
-        },
-        {
-            "idx": 1, "name": "제목2", "content": "내용2", "regdate": dateTime, "category": "자유게시판"
-        }
-    ]
+    const text = [{
+        "idx": 0,
+        "title": "제목",
+        "content": "내용",
+        "regdate": dateTime,
+        "category": "잡담"
+    },{
+        "idx": 1,
+        "title": "타이틀",
+        "content": "와 됐어?",
+        "regdate": dateTime,
+        "category": "성공"
+    }];
 
-    return text
+    const jsonType = JSON.stringify(text)
+    return new Response(jsonType);
 }
