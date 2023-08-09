@@ -10,6 +10,9 @@ export const metadata = {
 }
 
 export default function RootLayout({ children }) {
+    if (document.body.getAttribute("style") === "") {
+        document.body.removeAttribute("style");
+    }
   return (
     <html lang="en">
         <body className="bg-primary">

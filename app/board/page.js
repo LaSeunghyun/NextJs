@@ -12,12 +12,9 @@ async function getBoardData() {
         },
     };
 
-    const response = await fetch("/api/board", option);
-    const data = await response.json();
-
-    console.log(data);
-
-    return data;
+        const response = await fetch(`/api/board/`, option);
+        const data = await response.json();
+        return data;
 }
 
 function BoardItem({ item }) {
@@ -34,7 +31,7 @@ function BoardItem({ item }) {
                     {item.title}
                 </h2>
                 <p className="leading-relaxed">{item.content}</p>
-                <Link className="text-indigo-500 inline-flex items-center mt-4" href="/">
+                <Link className="text-indigo-500 inline-flex items-center mt-4" href={`/board/${item.idx}`}>
                     Learn More
                     <svg
                         className="w-4 h-4 ml-2"
@@ -67,7 +64,7 @@ export default function Board() {
         fetchData();
     }, []);
 
-    const boardItems = useMemo(() => {W
+    const boardItems = useMemo(() => {
         return boardData.reverse().map((item) => <BoardItem key={item.idx} item={item} />);
     }, [boardData]);
 
