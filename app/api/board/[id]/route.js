@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 
-
 export function GET(req) {
 
     const url = new URL(req.url)
