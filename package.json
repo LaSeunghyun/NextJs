@@ -16,7 +16,8 @@
     "postcss": "8.4.23",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-lottie-player": "^1.5.4"
+    "react-lottie-player": "^1.5.4",
+    "recoil": "^0.7.7"
   },
   "devDependencies": {
     "styled-jsx-plugin-postcss": "^4.0.1",

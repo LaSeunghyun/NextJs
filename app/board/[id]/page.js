@@ -1,51 +1,50 @@
-'use client'
+'use client';
 
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { boardList } from '@/atom';
 
-async function getBoardData(req) {
+export default function BoardIdx(req) {
+  const boardIdx = req.params.id;
+  const [text, setText] = useState('');
+  const [updateText, setUpdateText] = useState(false);
+  const [inputText, setInputText] = useState('');
+  const [list, setList] = useRecoilState(boardList);
 
-    const pageIdx = req;
+  const UpdateRecoil = () => {
+    const data = JSON.parse(JSON.stringify(list));
+    data[boardIdx].content = text;
+    setList(data);
+    setUpdateText(false);
+  };
 
-    const option = {
-        method: "GET",
-        headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-        },
-    };
-
-    const response = await fetch(`/api/board/board?id=${pageIdx}`, option);
-    const data = await response.json();
-    return data;
-}
-
-export default function BoardIdx({ params }) {
-
-    const boardIdx = params.id
-
-    const [boardData, setBoardData] = useState([]);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        async function fetchData() {
-            const data = await getBoardData(boardIdx);
-            setBoardData(data);
-            setLoading(false);
-        }
-        fetchData();
-    }, []);
-
-    if (loading) {
-        return <div>Loading...</div>;
+  useEffect(() => {
+    async function upDateText() {
+      updateText == true
+        ? setInputText(
+            <input
+              className="-my-8 divide-y-2 divide-white-100"
+              placeholder={list[boardIdx].content}
+              onChange={e => setText(e.target.value)}
+            />,
+          )
+        : setInputText(<div className="-my-8 divide-y-2 divide-white-100">{list[boardIdx].content}</div>);
     }
+    upDateText();
+  }, [updateText, list]);
 
-    return (
-        <>
-            <section className="text-gray-600 body-font overflow-hidden">
-                <div className="container px-5 py-24 mx-auto">
-                    <div className="-my-8 divide-y-2 divide-gray-100">{boardData.content}</div>
-                </div>
-            </section>
-        </>
-    );
+  return (
+    <>
+      <section className="text-gray-600 body-font overflow-hidden">
+        <div className="container px-5 py-24 mx-auto">{inputText}</div>
+        <div className="container px-5 py-24 mx-auto">
+          {updateText == true ? (
+            <p onClick={UpdateRecoil}>반영하기</p>
+          ) : (
+            <p onClick={() => setUpdateText(true)}>수정하기</p>
+          )}
+        </div>
+      </section>
+    </>
+  );
 }
